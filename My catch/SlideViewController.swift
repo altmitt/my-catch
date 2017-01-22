@@ -11,13 +11,20 @@ import UIKit
 
 class SlideViewController: UICollectionViewController {
     
-    @IBOutlet weak var dataLabel: UILabel!
     var dataObject: String = ""
-    
+    fileprivate let itemsPerRow: CGFloat = 3
+    fileprivate let initialCellIdentifier = "AddCell"
+    fileprivate let defaultCellIdentifier = "CatchCell"
+    fileprivate var sectionInsets = UIEdgeInsets(top: 100.0, left: 40.0, bottom: 0.0, right: 40.0)
+    var collection: [String] = ["one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "one", "two", "three", "four", "five", "and", "six"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let topController = UIApplication.shared.keyWindow?.rootViewController as? RootViewController {
+            print("Adjusting section insets")
+            sectionInsets = UIEdgeInsets(top: topController.overlay.frame.height, left: sectionInsets.left, bottom: sectionInsets.bottom, right: sectionInsets.right)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,3 +57,49 @@ class SlideViewController: UICollectionViewController {
     }
 }
 
+extension SlideViewController {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return collection.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var identifier: String = defaultCellIdentifier
+        if (indexPath.row == 0) {
+            identifier = initialCellIdentifier
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+        return cell
+    }
+}
+
+extension SlideViewController: UICollectionViewDelegateFlowLayout {
+    //1
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //2
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1.0)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.2)
+    }
+    
+    //3
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    // 4
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left / 2.0
+    }
+}
