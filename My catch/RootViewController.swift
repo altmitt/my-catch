@@ -16,10 +16,15 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
     @IBOutlet weak var overlay: UIView!
     @IBOutlet weak var logLabel: UILabel!
     @IBOutlet weak var speciesLabel: UILabel!
+    @IBOutlet weak var logCount: UILabel!
+    @IBOutlet weak var speciesCount: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let shared = Session.shared
+        shared.rootViewController = self
+        
         // Do any additional setup after loading the view, typically from a nib.
         // Configure the page view controller and add it as a child view controller.
         self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -44,6 +49,7 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
         self.pageViewController!.didMove(toParentViewController: self)
         
         self.view.bringSubview(toFront: self.overlay)
+        
     }
     
     override func didReceiveMemoryWarning() {

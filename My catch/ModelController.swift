@@ -12,7 +12,7 @@ import UIKit
 class ModelController: NSObject, UIPageViewControllerDataSource {
     
     var pageData: [String] = ["log", "species"]
-    var viewIdentifier: [String] = ["LogViewController", "LogViewController"]
+    var viewIdentifier: [String] = ["LogViewController", "SpeciesViewController"]
     
     override init() {
         super.init()

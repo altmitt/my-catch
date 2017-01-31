@@ -16,6 +16,15 @@
 		3189DC1D1E3370FC00CA6F34 /* SpeciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC1C1E3370FC00CA6F34 /* SpeciesViewController.swift */; };
 		3189DC1F1E33722B00CA6F34 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC1E1E33722B00CA6F34 /* ModelController.swift */; };
 		3189DC231E3373FB00CA6F34 /* SlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC221E3373FB00CA6F34 /* SlideViewController.swift */; };
+		3189DC251E34E10800CA6F34 /* AddCatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC241E34E10800CA6F34 /* AddCatchCell.swift */; };
+		3189DC271E34E27500CA6F34 /* CatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC261E34E27500CA6F34 /* CatchCell.swift */; };
+		3189DC291E34E5E000CA6F34 /* Catch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC281E34E5E000CA6F34 /* Catch.swift */; };
+		3189DC2B1E35631900CA6F34 /* EditCatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC2A1E35631900CA6F34 /* EditCatchViewController.swift */; };
+		3189DC2E1E367ADF00CA6F34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3189DC2D1E367ADF00CA6F34 /* MapKit.framework */; };
+		3189DC301E3C8BD200CA6F34 /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC2F1E3C8BD200CA6F34 /* Species.swift */; };
+		3189DC341E3C91CD00CA6F34 /* RequestCache.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3189DC331E3C91CD00CA6F34 /* RequestCache.plist */; };
+		3189DC361E3F280E00CA6F34 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC351E3F280E00CA6F34 /* Session.swift */; };
+		3189DC381E3F2CB300CA6F34 /* SpeciesMnUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +39,15 @@
 		3189DC1C1E3370FC00CA6F34 /* SpeciesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesViewController.swift; sourceTree = "<group>"; };
 		3189DC1E1E33722B00CA6F34 /* ModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		3189DC221E3373FB00CA6F34 /* SlideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideViewController.swift; sourceTree = "<group>"; };
+		3189DC241E34E10800CA6F34 /* AddCatchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCatchCell.swift; sourceTree = "<group>"; };
+		3189DC261E34E27500CA6F34 /* CatchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatchCell.swift; sourceTree = "<group>"; };
+		3189DC281E34E5E000CA6F34 /* Catch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Catch.swift; sourceTree = "<group>"; };
+		3189DC2A1E35631900CA6F34 /* EditCatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCatchViewController.swift; sourceTree = "<group>"; };
+		3189DC2D1E367ADF00CA6F34 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		3189DC2F1E3C8BD200CA6F34 /* Species.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
+		3189DC331E3C91CD00CA6F34 /* RequestCache.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RequestCache.plist; sourceTree = "<group>"; };
+		3189DC351E3F280E00CA6F34 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesMnUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3189DC2E1E367ADF00CA6F34 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +67,7 @@
 			children = (
 				3189DC031E335D7F00CA6F34 /* My catch */,
 				3189DC021E335D7F00CA6F34 /* Products */,
+				3189DC2C1E367ADF00CA6F34 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,10 +90,26 @@
 				3189DC101E335D7F00CA6F34 /* Info.plist */,
 				3189DC1A1E3370E100CA6F34 /* LogViewController.swift */,
 				3189DC1C1E3370FC00CA6F34 /* SpeciesViewController.swift */,
-				3189DC1E1E33722B00CA6F34 /* ModelController.swift */,
 				3189DC221E3373FB00CA6F34 /* SlideViewController.swift */,
+				3189DC1E1E33722B00CA6F34 /* ModelController.swift */,
+				3189DC241E34E10800CA6F34 /* AddCatchCell.swift */,
+				3189DC261E34E27500CA6F34 /* CatchCell.swift */,
+				3189DC2A1E35631900CA6F34 /* EditCatchViewController.swift */,
+				3189DC331E3C91CD00CA6F34 /* RequestCache.plist */,
+				3189DC351E3F280E00CA6F34 /* Session.swift */,
+				3189DC281E34E5E000CA6F34 /* Catch.swift */,
+				3189DC2F1E3C8BD200CA6F34 /* Species.swift */,
+				3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */,
 			);
 			path = "My catch";
+			sourceTree = "<group>";
+		};
+		3189DC2C1E367ADF00CA6F34 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3189DC2D1E367ADF00CA6F34 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +146,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3Z5PAAXD3Q;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -137,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3189DC0F1E335D7F00CA6F34 /* LaunchScreen.storyboard in Resources */,
+				3189DC341E3C91CD00CA6F34 /* RequestCache.plist in Resources */,
 				3189DC0C1E335D7F00CA6F34 /* Assets.xcassets in Resources */,
 				3189DC0A1E335D7F00CA6F34 /* Main.storyboard in Resources */,
 			);
@@ -153,7 +195,14 @@
 				3189DC051E335D7F00CA6F34 /* AppDelegate.swift in Sources */,
 				3189DC1D1E3370FC00CA6F34 /* SpeciesViewController.swift in Sources */,
 				3189DC1F1E33722B00CA6F34 /* ModelController.swift in Sources */,
+				3189DC291E34E5E000CA6F34 /* Catch.swift in Sources */,
 				3189DC231E3373FB00CA6F34 /* SlideViewController.swift in Sources */,
+				3189DC381E3F2CB300CA6F34 /* SpeciesMnUser.swift in Sources */,
+				3189DC271E34E27500CA6F34 /* CatchCell.swift in Sources */,
+				3189DC251E34E10800CA6F34 /* AddCatchCell.swift in Sources */,
+				3189DC361E3F280E00CA6F34 /* Session.swift in Sources */,
+				3189DC301E3C8BD200CA6F34 /* Species.swift in Sources */,
+				3189DC2B1E35631900CA6F34 /* EditCatchViewController.swift in Sources */,
 				3189DC171E33706300CA6F34 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +365,7 @@
 				3189DC151E335D7F00CA6F34 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
