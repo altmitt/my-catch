@@ -12,4 +12,12 @@ import UIKit
 class AddCatchCell: UICollectionViewCell {
     
     @IBOutlet weak var bottomLabel: UILabel!
+    
+    func adjustToSize() {
+        let screenSize: CGRect = UIScreen.main.bounds
+        if (screenSize.width == 320.0) {
+            self.bottomLabel.font = UIFont(name: "HelveticaNeue", size: 8.0)
+        }
+    }
+
 }

@@ -31,13 +31,13 @@ class SpeciesViewController: SlideViewController {
         let shared = Session.shared
         
         if let catchCell = cell as? CatchCell {
-            self.prepareCatchCell(cell: catchCell)
+            catchCell.adjustToSize()
             let thisSpecies = shared.speciesList[indexPath.row]
             catchCell.middleLabel.text = "\(thisSpecies.quantity)"
             catchCell.topLabel.text = ""
             catchCell.bottomLabel.text = "\(thisSpecies.name)"
         } else if let addCell = cell as? AddCatchCell {
-            self.prepareAddCell(cell: addCell)
+            addCell.adjustToSize()
         }
         
         return cell

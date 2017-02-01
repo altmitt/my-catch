@@ -30,55 +30,121 @@ class Session {
         self.addCatch(speciesName: "Gjedde", weight: 1600.0)
         self.addCatch(speciesName: "Gjedde", weight: 2500.0)
         self.addCatch(speciesName: "Mort", weight: 147.0)
-        self.addCatch(speciesName: "Lala", weight: 44.0)
-        self.addCatch(speciesName: "Burbot", weight: 1680.0)
+        self.addCatch(speciesName: "Surmule", weight: 44.0)
+        self.addCatch(speciesName: "Lake", weight: 1680.0)
         self.addCatch(speciesName: "Lake", weight: 1300.0)
     }
     
     func addCatch(speciesName: String, weight: Double) {
-        nextLocalCatchId += 1
-        let localCatchId = nextLocalCatchId
-
         let addedSpecies: Species? = self.getSpeciesFromName(name: speciesName)
-        let addedCatch = Catch(localCatchId: localCatchId, species: addedSpecies, speciesName: speciesName, weight: weight)
+        let addedCatch = Catch(date: Date(), species: addedSpecies, speciesName: speciesName, weight: weight)
         
-        catches.append(addedCatch)
+        self.addCatch(addedCatch)
+    }
+    
+    func addCatch(_ catchObject: Catch, sortWhenDone: Bool = true) {
+        if (catchObject.id == 0 && catchObject.localCatchId == 0) {
+            catchObject.localCatchId = nextLocalCatchId
+            nextLocalCatchId += 1
+        }
 
-        if let actualSpecies: Species = addedSpecies {
+        catches.append(catchObject)
+        
+        if let actualSpecies: Species = catchObject.species {
             var wasAdded = false
             for item in speciesList {
                 if (item.species.id == actualSpecies.id) {
-                    wasAdded = item.addCatch(catchToAdd: addedCatch)
+                    wasAdded = item.addCatch(catchToAdd: catchObject)
                     break // Done
                 }
             }
             if (!wasAdded) {
-                let item = SpeciesMnUser(species: actualSpecies, name: speciesName)
-                if (item.addCatch(catchToAdd: addedCatch)) {
+                let item = SpeciesMnUser(species: actualSpecies, name: actualSpecies.getName("nob"))
+                if (item.addCatch(catchToAdd: catchObject)) {
                     speciesList.append(item)
                 }
             }
         }
+        
+        if (sortWhenDone) {
+            self.sortCatches()
+            self.sortSpeciesList()
+        }
+    }
+    
+    func removeCatch(_ catchObject: Catch, sortWhenDone: Bool = true) {
+        if (catchObject.id == 0 && catchObject.localCatchId == 0) {
+            return;
+        }
+        
+        // Remove from speciesList
+        if let species: Species = catchObject.species {
+            var i = 0
+            for item in speciesList {
+                if (item.species.id == species.id) {
+                    if (item.removeCatch(catchToRemove: catchObject)) {
+                        // Remove entry if no more catches exist
+                        if (item.catches.count == 0) {
+                            speciesList.remove(at: i)
+                        }
+                    }
+                }
+                i += 1
+            }
+        }
+        
+        // Remove from catches
+        var i = 0
+        for item in catches {
+            if ((catchObject.id > 0 && catchObject.id == item.id) ||
+                (catchObject.localCatchId > 0 && catchObject.localCatchId == item.localCatchId)) {
+                catches.remove(at: i)
+            }
+            i += 1
+        }
     }
     
     func getSpeciesFromName(name: String) -> Species? {
+        if (name == "") {
+            return nil
+        }
+
         var foundLat: Species? = nil
         var foundEng: Species? = nil
+        
         for current in self.species {
-            if (current.nameNob == name) {
+            if (current.nameNob.lowercased() == name.lowercased()) {
                 return current
             }
-            if (current.nameEng == name) {
+            if (current.nameEng.lowercased() == name.lowercased()) {
                 foundEng = current
             }
-            if (current.nameLat == name) {
+            if (current.nameLat.lowercased() == name.lowercased()) {
                 foundLat = current
             }
         }
+        
         if (foundEng != nil) {
             return foundEng
         }
+        
         return foundLat
+    }
+    
+    func sortSpeciesList() {
+        speciesList.sort { $0.name < $1.name }
+    }
+    
+    func sortCatches() {
+        catches.sort {
+            if ($0.date == $1.date) {
+                if ($0.id == $1.id) {
+                    return $0.localCatchId > $1.localCatchId
+                }
+                return $0.id > $1.id
+            }
+            return $0.date > $1.date
+        }
     }
     
     func appendAllSpecies() {

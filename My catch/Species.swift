@@ -29,4 +29,24 @@ class Species {
         let dump = ""
         return dump
     }
+    
+    func getName(_ langCode: String) -> String {
+        switch langCode {
+        case "nob":
+            if (self.nameNob != "") {
+                return self.nameNob
+            }
+        default:
+            if (self.nameEng != "") {
+                return self.nameEng
+            }
+        }
+        
+        // Check English again
+        if (self.nameEng != "") {
+            return self.nameEng
+        }
+        
+        return self.nameLat
+    }
 }

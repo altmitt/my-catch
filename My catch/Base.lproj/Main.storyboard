@@ -284,7 +284,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KQX-XU-lfr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1592.8" y="21.589205397301352"/>
+            <point key="canvasLocation" x="1662" y="95"/>
         </scene>
         <!--Log View Controller-->
         <scene sceneID="UMi-4s-pLt">
@@ -320,7 +320,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <state key="normal" backgroundImage="Circle-add"/>
                                             <connections>
-                                                <segue destination="5vM-kj-p5m" kind="presentation" modalTransitionStyle="crossDissolve" id="0xX-hF-9l4"/>
+                                                <segue destination="5vM-kj-p5m" kind="presentation" identifier="NewCatch" modalTransitionStyle="crossDissolve" id="0xX-hF-9l4"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -331,7 +331,7 @@
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CatchCell" id="jZi-H9-jtV" customClass="CatchCell" customModule="My_catch" customModuleProvider="target">
-                                <rect key="frame" x="132.5" y="0.0" width="110" height="110"/>
+                                <rect key="frame" x="133" y="0.0" width="110" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
@@ -369,6 +369,7 @@
                                     <outlet property="bottomLabel" destination="kPb-oU-ElI" id="eRp-6r-MIw"/>
                                     <outlet property="middleLabel" destination="Ojf-h6-8k0" id="eD0-K6-bh1"/>
                                     <outlet property="topLabel" destination="3un-Rz-HTh" id="Pml-kZ-6ic"/>
+                                    <segue destination="5vM-kj-p5m" kind="presentation" identifier="EditCatch" modalTransitionStyle="crossDissolve" id="69E-pn-sIE"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -380,7 +381,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ny-1b-riu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="775" y="-45"/>
+            <point key="canvasLocation" x="774" y="36"/>
         </scene>
         <!--Species View Controller-->
         <scene sceneID="Bmw-i1-LBJ">
@@ -482,4 +483,7 @@
         <image name="Circle-highlight" width="295" height="295"/>
         <image name="Gradient-white-to-transparent" width="621" height="400"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="69E-pn-sIE"/>
+    </inferredMetricsTieBreakers>
 </document>

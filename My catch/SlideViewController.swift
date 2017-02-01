@@ -28,37 +28,10 @@ class SlideViewController: UICollectionViewController {
         
         let screenSize: CGRect = UIScreen.main.bounds
         sectionInsets = UIEdgeInsets(top: 100.0, left: screenSize.width * 0.08, bottom: 0.0, right: screenSize.width * 0.08)
-        
-        var optCache: NSDictionary?
-        if let path = Bundle.main.path(forResource: "RequestCache", ofType: "plist") {
-            optCache = NSDictionary(contentsOfFile: path)
-        }
-        
-        // Read cache from plist file
-        if let cache = optCache {
-            if let getAllSpecies = cache["getAllSpecies"] as? String {
-                
-                /*
-                if let data = getAllSpecies.data(using: .utf8) {
-                    do {
-                        let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                        for species in dict! {
-                            print("There is something here");
-                        }
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-                 */
-                //print("All species are \(getAllSpecies)")
-            }
-            // Use your dict here
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("View \(dataObject) did appear")
         self.updateTopController()
         if let view = collectionView {
             view.reloadData()
@@ -72,8 +45,6 @@ class SlideViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.dataLabel!.text = dataObject
-        print("View \(dataObject) will appear")
         self.updateCount()
     }
     
@@ -137,51 +108,18 @@ extension SlideViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
         
         if let catchCell = cell as? CatchCell {
-            self.prepareCatchCell(cell: catchCell)
-            let thisCatch = shared.catches[indexPath.row - 1]
-            
-            // Quantity
-            if (thisCatch.quantity > 1) {
-                catchCell.middleLabel.text = "\(thisCatch.quantity)"
-            } else {
-                catchCell.middleLabel.text = ""
+            catchCell.adjustToSize()
+
+            if (shared.catches.count >= indexPath.row) {
+                catchCell.setCatchObject(catchObject: shared.catches[indexPath.row - 1])
             }
-            
-            // Weight
-            if (thisCatch.weight > 1000) {
-                // Measure in kilos
-                let kilos = thisCatch.weight/1000
-                catchCell.topLabel.text = String(format: (kilos * 10 == floor(kilos * 10)) ? "%.1f" : "%.2f", kilos) + "kg"
-                
-            } else if (thisCatch.weight > 0) {
-                catchCell.topLabel.text = String(format: (thisCatch.weight == floor(thisCatch.weight)) ? "%.0f" : "%.1f", thisCatch.weight) + "g"
-            } else {
-                catchCell.topLabel.text = ""
-            }
-            
-            catchCell.bottomLabel.text = "\(thisCatch.speciesName)"
         } else if let addCell = cell as? AddCatchCell {
-            self.prepareAddCell(cell: addCell)
+            addCell.adjustToSize()
         }
         
         return cell
     }
     
-    func prepareCatchCell(cell: CatchCell) {
-        let screenSize: CGRect = UIScreen.main.bounds
-        if (screenSize.width == 320.0) {
-            cell.topLabel.font = UIFont(name: "HelveticaNeue", size: 9.0)
-            cell.middleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
-            cell.bottomLabel.font = UIFont(name: "HelveticaNeue", size: 8.0)
-        }
-    }
-    
-    func prepareAddCell(cell: AddCatchCell) {
-        let screenSize: CGRect = UIScreen.main.bounds
-        if (screenSize.width == 320.0) {
-            cell.bottomLabel.font = UIFont(name: "HelveticaNeue", size: 8.0)
-        }
-    }
 }
 
 extension SlideViewController: UICollectionViewDelegateFlowLayout {

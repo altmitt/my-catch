@@ -13,7 +13,7 @@ class Catch {
     var id: Int = 0
     var species: Species? = nil
     var speciesName: String = ""
-    var date = NSDate()
+    var date:Date = Date()
     var quantity = 1
     var weight = 0.0
     var weightLbs = 0.0
@@ -25,8 +25,8 @@ class Catch {
     var location = ""
     var position = ""
     
-    init(localCatchId: Int, species: Species?, speciesName: String, weight: Double, length: Double = 0.0, girth: Double = 0.0) {
-        self.localCatchId = localCatchId
+    init(date: Date, species: Species?, speciesName: String, weight: Double, length: Double = 0.0, girth: Double = 0.0) {
+        self.date = date
         self.species = species
         self.speciesName = speciesName
         self.weight = weight

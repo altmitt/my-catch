@@ -7,7 +7,21 @@
 //
 
 import Foundation
+import UIKit
 
 class LogViewController: SlideViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "EditCatch") {
+            print("Going to edit the catch")
+            if let catchCell = sender as? CatchCell {
+                if let target = segue.destination as? EditCatchViewController {
+                    if let catchObject = catchCell.catchObject {
+                        print("Editing '\(catchObject.speciesName)' \(catchObject.id)/\(catchObject.localCatchId)")
+                        target.catchObject = catchObject
+                    }
+                }
+            }
+        }
+    }
     
 }
