@@ -38,6 +38,26 @@ class EditCatchViewController: UIViewController {
         print("Clicked Date")
     }
     
+    @IBAction func clickedDelete(_ sender: Any) {
+        let refreshAlert = UIAlertController(title: "Slette fangsten?", message: "Fangsten vil bli slettet, og det vil ikke være mulig å finne den tilbake.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Slett", style: .default, handler: { (action: UIAlertAction!) in
+            let shared = Session.shared
+            if let catchObject = self.catchObject {
+                shared.removeCatch(catchObject)
+            } else {
+                print("Catch object not found")
+            }
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Avbryt", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Noen trykket Avbryt!")
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

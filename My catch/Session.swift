@@ -12,7 +12,7 @@ class Session {
     static let shared: Session = Session()
     
     var id = ""
-    var nextLocalCatchId = 0
+    var nextLocalCatchId = 1
     var catches: [Catch] = []
     var species: [Species] = []
     var speciesList: [SpeciesMnUser] = []
@@ -20,7 +20,12 @@ class Session {
     
     init() {
         self.appendAllSpecies()
-        
+        for _ in 1...10000 {
+            addRandomCatch()
+        }
+        self.sortCatches()
+        self.sortSpeciesList()
+/*
         self.addCatch(speciesName: "Gjedde", weight: 4500.0)
         self.addCatch(speciesName: "Gjedde", weight: 550.0)
         self.addCatch(speciesName: "Gjedde", weight: 1200.0)
@@ -33,7 +38,17 @@ class Session {
         self.addCatch(speciesName: "Surmule", weight: 44.0)
         self.addCatch(speciesName: "Lake", weight: 1680.0)
         self.addCatch(speciesName: "Lake", weight: 1300.0)
+ */
     }
+    
+    func addRandomCatch() {
+        let index = Int(arc4random_uniform(UInt32(species.count)));
+        let randomSpecies = species[index]
+        let randomWeight = 2000.0 * Double(arc4random()) / Double(UINT32_MAX)
+        let addedCatch = Catch(date: Date(), species: randomSpecies, speciesName: randomSpecies.nameEng, weight: randomWeight)
+        self.addCatch(addedCatch, sortWhenDone: false)
+    }
+    
     
     func addCatch(speciesName: String, weight: Double) {
         let addedSpecies: Species? = self.getSpeciesFromName(name: speciesName)
@@ -73,7 +88,9 @@ class Session {
     }
     
     func removeCatch(_ catchObject: Catch, sortWhenDone: Bool = true) {
+        print("in removeCatch for object \(catchObject.id) with local id \(catchObject.localCatchId)")
         if (catchObject.id == 0 && catchObject.localCatchId == 0) {
+            print("Id not found")
             return;
         }
         
@@ -83,6 +100,7 @@ class Session {
             for item in speciesList {
                 if (item.species.id == species.id) {
                     if (item.removeCatch(catchToRemove: catchObject)) {
+                        print("Removed from list of species")
                         // Remove entry if no more catches exist
                         if (item.catches.count == 0) {
                             speciesList.remove(at: i)
@@ -99,6 +117,7 @@ class Session {
             if ((catchObject.id > 0 && catchObject.id == item.id) ||
                 (catchObject.localCatchId > 0 && catchObject.localCatchId == item.localCatchId)) {
                 catches.remove(at: i)
+                print("Removed from list of catches")
             }
             i += 1
         }
@@ -139,9 +158,9 @@ class Session {
         catches.sort {
             if ($0.date == $1.date) {
                 if ($0.id == $1.id) {
-                    return $0.localCatchId > $1.localCatchId
+                    return $0.localCatchId < $1.localCatchId
                 }
-                return $0.id > $1.id
+                return $0.id < $1.id
             }
             return $0.date > $1.date
         }
