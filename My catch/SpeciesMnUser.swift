@@ -47,4 +47,17 @@ class SpeciesMnUser {
         // Not found - already deleted
         return false
     }
+    
+    func sortCatches() {
+        catches.sort {
+            if ($0.weight == $1.weight) {
+                if ($0.quantity == $1.quantity) {
+                    return $0.date > $1.date
+                }
+                return $0.quantity > $1.quantity
+            }
+            return $0.weight > $1.weight
+        }
+    }
+
 }

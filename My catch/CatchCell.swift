@@ -14,11 +14,21 @@ class CatchCell: UICollectionViewCell {
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var bottomLabel: UILabel!
     @IBOutlet weak var middleLabel: UILabel!
+    @IBOutlet weak var catchImage: UIImageView!
+    @IBOutlet weak var trophyImageTeam: UIImageView!
+    @IBOutlet weak var trophyImageSpecies: UIImageView!
+    @IBOutlet weak var trophyImageUser: UIImageView!
+    
     
     var catchObject: Catch?
+    var speciesMnUserObject: SpeciesMnUser?
     
-    func setCatchObject(catchObject: Catch) {
+    func setCatchObject(catchObject: Catch, showSpeciesName: Bool = true) {
         self.catchObject = catchObject
+        
+        self.catchImage.image = catchObject.getThumbnailImage(index: 0)
+        self.catchImage.layer.cornerRadius = self.catchImage.frame.size.width / 2;
+        self.catchImage.clipsToBounds = true;
 
         // Quantity
         if (catchObject.quantity > 1) {
@@ -39,7 +49,26 @@ class CatchCell: UICollectionViewCell {
             self.topLabel.text = ""
         }
         
-        self.bottomLabel.text = "\(catchObject.speciesName)"
+        if (showSpeciesName) {
+            self.bottomLabel.text = "\(catchObject.speciesName)"
+        } else {
+            let formatter = DateFormatter()
+            /*
+            formatter.dateStyle = .short
+            formatter.timeStyle = .none
+             */
+            formatter.dateFormat = "d. MMM"
+            
+            let dateString = formatter.string(from: catchObject.date)
+            self.bottomLabel.text = "\(dateString)" // Date!!!
+        }
+    }
+    
+    func setSpeciesMnUserObject(speciesMnUserObject: SpeciesMnUser) {
+        self.speciesMnUserObject = speciesMnUserObject
+        self.middleLabel.text = "\(speciesMnUserObject.quantity)"
+        self.topLabel.text = ""
+        self.bottomLabel.text = "\(speciesMnUserObject.name)"
     }
     
     func adjustToSize() {

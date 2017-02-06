@@ -99,5 +99,16 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
         return .mid
     }
     
+    @IBAction func clickedSpecies(_ sender: Any) {
+
+        let speciesViewController: SlideViewController = self.modelController.viewControllerAtIndex(1, storyboard: self.storyboard!)!
+        
+        pageViewController?.setViewControllers([speciesViewController], direction: .forward, animated: true, completion: nil)
+    }
     
+    @IBAction func clickedLog(_ sender: Any) {
+        let logViewController: SlideViewController = self.modelController.viewControllerAtIndex(0, storyboard: self.storyboard!)!
+        
+        pageViewController?.setViewControllers([logViewController], direction: .reverse, animated: true, completion: nil)
+    }
 }

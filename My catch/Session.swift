@@ -17,11 +17,13 @@ class Session {
     var species: [Species] = []
     var speciesList: [SpeciesMnUser] = []
     var rootViewController: RootViewController? = nil
+    var imageFolder = "Images"
+    var queueFolder = "ImagesInQueue"
     
     init() {
         self.appendAllSpecies()
-        for _ in 1...10000 {
-            addRandomCatch()
+        for _ in 1...50 {
+            addRandomNorwegianCatch()
         }
         self.sortCatches()
         self.sortSpeciesList()
@@ -41,11 +43,50 @@ class Session {
  */
     }
     
+    func getDocumentsDirectory(folderName: String = "") -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        
+        if (folderName != "") {
+            let folderPath = documentsDirectory.appendingPathComponent(folderName)
+
+            do {
+                let isReachable = try folderPath.checkResourceIsReachable()
+                if (isReachable) {
+                    return folderPath
+                } else {
+                    print("Folder \(folderName) is not reachable")
+                }
+            } catch let error as NSError {
+                print(error.localizedDescription);
+                do {
+                    print("Trying to create the folder \(folderPath.absoluteString)")
+                    try FileManager.default.createDirectory(at: folderPath, withIntermediateDirectories: false, attributes: nil)
+                    return folderPath
+                } catch let error as NSError {
+                    print("Operation failed")
+                    print(error.localizedDescription);
+                }
+            }
+        }
+        
+        return documentsDirectory
+    }
+    
     func addRandomCatch() {
         let index = Int(arc4random_uniform(UInt32(species.count)));
         let randomSpecies = species[index]
         let randomWeight = 2000.0 * Double(arc4random()) / Double(UINT32_MAX)
         let addedCatch = Catch(date: Date(), species: randomSpecies, speciesName: randomSpecies.nameEng, weight: randomWeight)
+        self.addCatch(addedCatch, sortWhenDone: false)
+    }
+    
+    func addRandomNorwegianCatch() {
+        let indexes = [9, 17, 26, 27, 118, 139, 140, 147, 151, 163, 164, 165, 222, 231, 247, 256, 303, 304, 341, 383, 398, 408, 427, 435, 445, 532, 536, 537, 540, 547, 549, 555, 575, 663, 664, 681, 731, 779, 859, 881, 902, 903, 905, 936, 937, 948, 958, 970, 976, 977, 986, 997, 999, 1043, 1046, 1059, 1063, 1065, 1166, 1179, 1213, 1216, 1217, 1242, 1321, 1323, 1374, 1429, 1514, 1515, 1521, 1524, 1548, 1578, 1579, 1588, 1589, 1590, 1594, 1598, 1616, 1618, 1619, 1620, 1621, 1622, 1623, 1624, 1625, 1626, 1627, 1628, 1629, 1630, 1631, 1632, 1633, 1634, 1635, 1636, 1637, 1638, 1639, 1640, 1641, 1642, 1643, 1644, 1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654, 1655, 1656, 1657, 1658, 1659, 1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669, 1670, 1671, 1672, 1673, 1674, 1675, 1676, 1677, 1678, 1679, 1680, 1681, 1682, 1683, 1684, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701]
+        let index = indexes[Int(arc4random_uniform(UInt32(indexes.count)))] - 1;
+        let randomSpecies = species[index]
+        let randomWeight = 2000.0 * Double(arc4random()) / Double(UINT32_MAX)
+        let addedCatch = Catch(date: Date(), species: randomSpecies, speciesName: randomSpecies.nameNob, weight: randomWeight)
         self.addCatch(addedCatch, sortWhenDone: false)
     }
     
@@ -151,7 +192,7 @@ class Session {
     }
     
     func sortSpeciesList() {
-        speciesList.sort { $0.name < $1.name }
+        speciesList.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending }
     }
     
     func sortCatches() {
