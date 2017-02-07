@@ -29,6 +29,28 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     var catchObject: Catch?
     var createNew = false
     var allowOverwrite = true
+    var inputDate: Date? = nil
+    var datePicker: UIDatePicker? = nil
+    let dateFormatter = DateFormatter()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        print("Someone tapped")
+        view.endEditing(true)
+        if let datePicker = self.datePicker {
+            datePicker.removeFromSuperview()
+            self.datePicker = nil
+        }
+    }
     
     @IBAction func clickedCancel(_ sender: UIButton) {
         print("Clicked Cancel")
@@ -43,6 +65,28 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBAction func clickedDate(_ sender: UIButton) {
         print("Clicked Date")
+        view.endEditing(true) // Hiding any active keyboards
+        if datePicker != nil {
+            return; // It exists, don't create it again
+        }
+        
+        datePicker = UIDatePicker()
+        
+        if let datePicker = self.datePicker {
+            datePicker.datePickerMode = UIDatePickerMode.date
+            datePicker.addTarget(self, action: #selector(catchDateChanged(sender:)), for: UIControlEvents.valueChanged)
+            let pickerSize : CGSize = CGSize(width: UIScreen.main.bounds.width, height: 200.0) //picker.sizeThatFits(CGSize.zero)
+            datePicker.frame = CGRect(x: 0.0, y: UIScreen.main.bounds.height-pickerSize.height, width: pickerSize.width, height: pickerSize.height)
+            datePicker.backgroundColor = UIColor.white
+            self.view.addSubview(datePicker)
+        }
+    }
+    
+    func catchDateChanged(sender:UIDatePicker){
+        if (sender.date <= Date()) {
+            self.inputDate = sender.date
+        }
+        self.dateButton.setTitle("\(dateFormatter.string(from: sender.date))", for: .normal)
     }
     
     @IBAction func clickedPhoto1(_ sender: UIButton) {
@@ -147,6 +191,9 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
             }
         }
         
+        self.inputDate = catchObject.date
+        self.dateButton.setTitle("\(dateFormatter.string(from: catchObject.date))", for: .normal)
+        
         self.updatePhotoButtons()
         
         self.speciesField.text = catchObject.speciesName
@@ -186,21 +233,6 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
                 }
                 index += 1
             }
-            
-            /*
-            if (catchObject.imageLinks.count > 0) {
-                print("Setting image for button 1")
-                self.photoButton1.setBackgroundImage(catchObject.getThumbnailImage(index: 0), for: .normal)
-            }
-            if (catchObject.imageLinks.count > 1) {
-                print("Setting image for button 2")
-                self.photoButton2.setBackgroundImage(catchObject.getThumbnailImage(index: 1), for: .normal)
-            }
-            if (catchObject.imageLinks.count > 2) {
-                print("Setting image for button 3")
-                self.photoButton3.setBackgroundImage(catchObject.getThumbnailImage(index: 2), for: .normal)
-            }
- */
             
         }
     }
@@ -253,14 +285,23 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         if let inputBait = baitField.text {
             bait = inputBait
         }
+        
+        var date = Date()
+        if let inputDate = self.inputDate {
+            date = inputDate
+        }
 
 
         if let currentCatch: Catch = catchObject {
-            if (!createNew) {
+            let newSpecies = shared.getSpeciesFromName(name: speciesName)
+            
+            if (currentCatch.species?.id != newSpecies?.id && !createNew) {
                 // Remove before it is changed, so that previous values are still intact
                 shared.removeCatch(currentCatch, sortWhenDone: false)
+                createNew = true
             }
 
+            currentCatch.date = date
             currentCatch.quantity = quantity
             currentCatch.speciesName = speciesName
             currentCatch.species = shared.getSpeciesFromName(name: speciesName)
@@ -270,8 +311,10 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
             currentCatch.location = location
             currentCatch.bait = bait
             
-            // Insert if created or re-insert if edited
-            shared.addCatch(currentCatch)
+            if (createNew) {
+                // Insert if created or re-insert if species was changed and old record removed
+                shared.addCatch(currentCatch)
+            }
         } else {
             print("Catch object is nil! Something must be wrong!!!")
             return

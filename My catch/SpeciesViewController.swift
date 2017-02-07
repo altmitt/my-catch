@@ -44,6 +44,7 @@ class SpeciesViewController: SlideViewController {
             if let headerCell = cell as? HeaderCell {
                 if let speciesMnUserObject = self.speciesMnUserObject {
                     headerCell.setSpecies(speciesObject: speciesMnUserObject.species)
+                    headerCell.setImage(image: speciesMnUserObject.getImage())
                     headerCell.parentViewController = self
                 }
             }
@@ -77,10 +78,10 @@ class SpeciesViewController: SlideViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+                                 layout collectionViewLayout: UICollectionViewLayout,
+                                 sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (indexPath.section == 0) {
-            return CGSize(width: view.frame.width, height: view.frame.width/3.0)
+            return CGSize(width: view.frame.width, height: view.frame.width/2.0)
         }
         
         let paddingSpace = sectionInsets.left * itemsPerRow
@@ -91,17 +92,32 @@ class SpeciesViewController: SlideViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+                                 layout collectionViewLayout: UICollectionViewLayout,
+                                 insetForSectionAt section: Int) -> UIEdgeInsets {
         if (section == 0) {
             return UIEdgeInsets(top: 20.0, left: 0.0, bottom: 0.0, right: 0.0)
+        }
+        if (section == 1) {
+            return UIEdgeInsets(top: 0.0, left:sectionInsets.left, bottom: 0.0, right: sectionInsets.right)
         }
         return sectionInsets
     }
     
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        print("Triggered this!")
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)
+        if kind == UICollectionElementKindSectionHeader {
+            print("It is a header view")
+            headerView.backgroundColor = UIColor.blue
+        } else {
+            print("No, it wasn't")
+        }
+        return headerView
+    }
+    
     override func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+                                 layout collectionViewLayout: UICollectionViewLayout,
+                                 minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if (section == 0) {
             return 0
         }

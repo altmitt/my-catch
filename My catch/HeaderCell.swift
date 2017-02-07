@@ -14,12 +14,18 @@ class HeaderCell: UICollectionViewCell {
     var parentViewController: SpeciesViewController?
     
     @IBOutlet weak var topLabel: UILabel!
+    @IBOutlet weak var secondaryLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     func setSpecies(speciesObject: Species) {
         self.speciesObject = speciesObject
         self.topLabel.text = speciesObject.getName("nob").uppercased()
+        self.secondaryLabel.text = speciesObject.nameLat
     }
-    
+
+    func setImage(image: UIImage?) {
+        self.imageView.image = image
+    }
     @IBAction func clickedBack(_ sender: UIButton) {
         print("Clicked back")
         if let parent = self.parentViewController {

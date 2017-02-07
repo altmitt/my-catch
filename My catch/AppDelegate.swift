@@ -40,7 +40,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
+
+extension UIImage {
+    func drawInRectAspectFill(rect: CGRect) -> UIImage? {
+        let targetSize = rect.size
+        if (targetSize == CGSize.zero) {
+            return nil
+        }
+        let widthRatio = targetSize.width / self.size.width
+        let heightRatio = targetSize.height / self.size.height
+        let scalingFactor = max(widthRatio, heightRatio)
+        let newSize = CGSize(width: self.size.width * scalingFactor,
+                             height: self.size.height * scalingFactor)
+        
+        UIGraphicsBeginImageContextWithOptions(targetSize, true, UIScreen.main.scale)
+        let origin = CGPoint(x: (targetSize.width - newSize.width) / 2,
+                             y: (targetSize.height - newSize.height) / 2)
+        self.draw(in: CGRect(origin: origin, size: newSize))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        scaledImage?.draw(in: rect)
+        return scaledImage
+    }
+}
+
 

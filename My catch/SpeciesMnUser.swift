@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class SpeciesMnUser {
     let species: Species
@@ -59,5 +60,22 @@ class SpeciesMnUser {
             return $0.weight > $1.weight
         }
     }
-
+    
+    func getImage() -> UIImage? {
+        for catchObject in self.catches {
+            if let imageObject = catchObject.getImage(index: 0) {
+                return imageObject
+            }
+        }
+        return nil
+    }
+    
+    func getThumbnailImage() -> UIImage? {
+        for catchObject in self.catches {
+            if let imageObject = catchObject.getThumbnailImage(index: 0) {
+                return imageObject
+            }
+        }
+        return nil
+    }
 }

@@ -66,6 +66,11 @@ class CatchCell: UICollectionViewCell {
     
     func setSpeciesMnUserObject(speciesMnUserObject: SpeciesMnUser) {
         self.speciesMnUserObject = speciesMnUserObject
+        
+        self.catchImage.image = speciesMnUserObject.getThumbnailImage()
+        self.catchImage.layer.cornerRadius = self.catchImage.frame.size.width / 2;
+        self.catchImage.clipsToBounds = true;
+        
         self.middleLabel.text = "\(speciesMnUserObject.quantity)"
         self.topLabel.text = ""
         self.bottomLabel.text = "\(speciesMnUserObject.name)"

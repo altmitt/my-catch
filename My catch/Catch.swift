@@ -65,12 +65,10 @@ class Catch {
         // Create thumbnail
         let thumbnailImageName = self.getTempImageName(index: self.imageLinks.count, postfix: "-thumbnail")
         let thumbnailFilename = shared.getDocumentsDirectory(folderName: shared.queueFolder).appendingPathComponent(thumbnailImageName)
-
-        let thumbnailSize = CGSize(width: 200, height: 200)
-        UIGraphicsBeginImageContext(thumbnailSize)
-        image.draw(in: CGRect.init(x: 0, y: 0, width: thumbnailSize.width, height: thumbnailSize.height))
-        if let thumbnailImage = UIGraphicsGetImageFromCurrentImageContext() {
-
+        
+        let thumbnailRectangle = CGRect.init(x: 0, y: 0, width: 100, height: 100)
+        if let thumbnailImage = image.drawInRectAspectFill(rect: thumbnailRectangle) {
+            
             // Write thumbnail to file
             if let data = UIImageJPEGRepresentation(thumbnailImage, 0.8) {
                 do {
