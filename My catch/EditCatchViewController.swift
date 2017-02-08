@@ -8,8 +8,10 @@
 
 import Foundation
 import UIKit
+import MapKit
+import CoreLocation
 
-class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateButton: UIButton!
@@ -23,6 +25,8 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var photoButton1: UIButton!
     @IBOutlet weak var photoButton2: UIButton!
     @IBOutlet weak var photoButton3: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var imagePicked: UIImageView!
     
@@ -32,6 +36,7 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     var inputDate: Date? = nil
     var datePicker: UIDatePicker? = nil
     let dateFormatter = DateFormatter()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +46,31 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        
+        self.initLocationDelegate()
+    }
+    
+    func initLocationDelegate() {
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let span = MKCoordinateSpanMake(0.075, 0.075)
+        let region = MKCoordinateRegion(center: manager.location!.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
+        
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
     func dismissKeyboard() {
@@ -390,4 +420,7 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         self.dismiss(animated: true, completion: nil);
     }
     
+    @IBAction func startedEditingFarDown(_ sender: Any) {
+        scrollView.setContentOffset(CGPoint(x: 0.0, y: 200.0), animated: true)
+    }
 }

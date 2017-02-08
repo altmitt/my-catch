@@ -27,6 +27,7 @@
 		3189DC341E3C91CD00CA6F34 /* RequestCache.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3189DC331E3C91CD00CA6F34 /* RequestCache.plist */; };
 		3189DC361E3F280E00CA6F34 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC351E3F280E00CA6F34 /* Session.swift */; };
 		3189DC381E3F2CB300CA6F34 /* SpeciesMnUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */; };
+		31DBCA6C1E4A46220094AAF9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		3189DC331E3C91CD00CA6F34 /* RequestCache.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RequestCache.plist; sourceTree = "<group>"; };
 		3189DC351E3F280E00CA6F34 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesMnUser.swift; sourceTree = "<group>"; };
+		31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31DBCA6C1E4A46220094AAF9 /* CoreLocation.framework in Frameworks */,
 				3189DC2E1E367ADF00CA6F34 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,6 +116,7 @@
 		3189DC2C1E367ADF00CA6F34 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */,
 				3189DC2D1E367ADF00CA6F34 /* MapKit.framework */,
 			);
 			name = Frameworks;

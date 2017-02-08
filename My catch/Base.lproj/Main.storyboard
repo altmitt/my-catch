@@ -251,6 +251,9 @@
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
+                                                <connections>
+                                                    <action selector="startedEditingFarDown:" destination="5vM-kj-p5m" eventType="editingDidBegin" id="u5k-Rb-JbP"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -343,10 +346,12 @@
                         <outlet property="girthField" destination="XQa-iD-PCG" id="eqh-uc-87S"/>
                         <outlet property="lengthField" destination="IVV-ia-Aec" id="YPk-al-Lvd"/>
                         <outlet property="locationField" destination="j9U-KD-hWH" id="h62-Dp-IeS"/>
+                        <outlet property="mapView" destination="Gjy-Hi-VM5" id="4RW-03-0Us"/>
                         <outlet property="photoButton1" destination="nSS-2R-ASf" id="tFo-Hz-dIf"/>
                         <outlet property="photoButton2" destination="mS2-pR-YrX" id="QgN-Az-TIn"/>
                         <outlet property="photoButton3" destination="Lqw-cg-86Q" id="ZxG-sp-yEC"/>
                         <outlet property="quanityField" destination="xza-CL-GDE" id="0mP-PA-rqv"/>
+                        <outlet property="scrollView" destination="DeY-rF-Sg5" id="PtK-8r-AIX"/>
                         <outlet property="speciesField" destination="j6L-8k-dGZ" id="RLP-Og-jFS"/>
                         <outlet property="titleLabel" destination="5fu-hV-e7X" id="VOh-zG-eO8"/>
                         <outlet property="weightField" destination="iZu-W1-I9f" id="T6O-Un-RBY"/>
