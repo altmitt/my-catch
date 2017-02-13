@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Session {
     static let shared: Session = Session()
@@ -17,13 +18,14 @@ class Session {
     var species: [Species] = []
     var speciesList: [SpeciesMnUser] = []
     var rootViewController: RootViewController? = nil
-    var imageFolder = "Images"
-    var queueFolder = "ImagesInQueue"
+    
+    static let imageFolder = "Images"
+    static let queueFolder = "ImagesInQueue"
     
     init() {
         self.appendAllSpecies()
         for _ in 1...50 {
-            addRandomNorwegianCatch()
+            addRandomCatchWithImage()
         }
         self.sortCatches()
         self.sortSpeciesList()
@@ -43,7 +45,7 @@ class Session {
  */
     }
     
-    func getDocumentsDirectory(folderName: String = "") -> URL {
+    static func getDocumentsDirectory(folderName: String = "") -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         
@@ -79,6 +81,24 @@ class Session {
         let randomWeight = 2000.0 * Double(arc4random()) / Double(UINT32_MAX)
         let addedCatch = Catch(date: Date(), species: randomSpecies, speciesName: randomSpecies.nameEng, weight: randomWeight)
         self.addCatch(addedCatch, sortWhenDone: false)
+    }
+    
+    func addRandomCatchWithImage() {
+        let indexes = [139, 151, 247, 383, 681, 859, 881, 903, 997, 1046, 1059, 1515, 1589, 1620, 1623, 1632, 1636, 1665, 1678, 1681, 1689, 1690]
+        let index = indexes[Int(arc4random_uniform(UInt32(indexes.count)))] - 1;
+        let randomSpecies = species[index]
+        let randomWeight = 2000.0 * Double(arc4random()) / Double(UINT32_MAX)
+        let addedCatch = Catch(date: Date(), species: randomSpecies, speciesName: randomSpecies.nameNob, weight: randomWeight)
+
+        self.addCatch(addedCatch, sortWhenDone: false)
+
+        let resourceName = "species_\(randomSpecies.id)"
+        if let image = UIImage(named: resourceName) {
+            print("Adding image of \(randomSpecies.nameNob)")
+            addedCatch.addImage(image: image)
+        } else {
+            print("Could not find image named \(resourceName)")
+        }
     }
     
     func addRandomNorwegianCatch() {

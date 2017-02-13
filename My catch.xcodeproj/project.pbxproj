@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3120D2FE1E4FCCCA009EB335 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3120D2FD1E4FCCCA009EB335 /* Photos.framework */; };
 		314513A91E44C5E900DCD3C7 /* SpeciesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314513A81E44C5E900DCD3C7 /* SpeciesListViewController.swift */; };
 		314513AB1E44CD7500DCD3C7 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314513AA1E44CD7500DCD3C7 /* HeaderCell.swift */; };
 		3189DC051E335D7F00CA6F34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC041E335D7F00CA6F34 /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3120D2FD1E4FCCCA009EB335 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		314513A81E44C5E900DCD3C7 /* SpeciesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesListViewController.swift; sourceTree = "<group>"; };
 		314513AA1E44CD7500DCD3C7 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 		3189DC011E335D7F00CA6F34 /* My catch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My catch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3120D2FE1E4FCCCA009EB335 /* Photos.framework in Frameworks */,
 				31DBCA6C1E4A46220094AAF9 /* CoreLocation.framework in Frameworks */,
 				3189DC2E1E367ADF00CA6F34 /* MapKit.framework in Frameworks */,
 			);
@@ -116,6 +119,7 @@
 		3189DC2C1E367ADF00CA6F34 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3120D2FD1E4FCCCA009EB335 /* Photos.framework */,
 				31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */,
 				3189DC2D1E367ADF00CA6F34 /* MapKit.framework */,
 			);

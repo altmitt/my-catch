@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class Catch {
     var localCatchId: Int = 0
@@ -23,8 +24,9 @@ class Catch {
     var girth = 0.0
     var girthInches = 0.0
     var bait = ""
-    var location = ""
-    var position = ""
+    var location: CLLocationCoordinate2D? = nil
+    var place = ""
+    var country = ""
     var imageLinks:[(id:Int, remote:String, remoteThumbnail:String, local:URL?, localThumbnail:URL?)] = []
     
     init(date: Date, species: Species?, speciesName: String, weight: Double, length: Double = 0.0, girth: Double = 0.0) {
@@ -48,11 +50,10 @@ class Catch {
         let height = imageSize.height
         
         print("Image is \(width)x\(height)")
-        let shared = Session.shared
         
         // Write image to file
         let imageName = self.getTempImageName(index: self.imageLinks.count)
-        let filename = shared.getDocumentsDirectory(folderName: shared.queueFolder).appendingPathComponent(imageName)
+        let filename = Session.getDocumentsDirectory(folderName: Session.queueFolder).appendingPathComponent(imageName)
         if let data = UIImageJPEGRepresentation(image, 0.8) {
             do {
                 try data.write(to: filename)
@@ -64,7 +65,7 @@ class Catch {
         
         // Create thumbnail
         let thumbnailImageName = self.getTempImageName(index: self.imageLinks.count, postfix: "-thumbnail")
-        let thumbnailFilename = shared.getDocumentsDirectory(folderName: shared.queueFolder).appendingPathComponent(thumbnailImageName)
+        let thumbnailFilename = Session.getDocumentsDirectory(folderName: Session.queueFolder).appendingPathComponent(thumbnailImageName)
         
         let thumbnailRectangle = CGRect.init(x: 0, y: 0, width: 100, height: 100)
         if let thumbnailImage = image.drawInRectAspectFill(rect: thumbnailRectangle) {

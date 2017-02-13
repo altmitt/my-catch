@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 import MapKit
 import CoreLocation
+import Photos
 
-class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
+class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateButton: UIButton!
@@ -20,13 +21,14 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var weightField: UITextField!
     @IBOutlet weak var lengthField: UITextField!
     @IBOutlet weak var girthField: UITextField!
-    @IBOutlet weak var locationField: UITextField!
+    @IBOutlet weak var placeField: UITextField!
     @IBOutlet weak var baitField: UITextField!
     @IBOutlet weak var photoButton1: UIButton!
     @IBOutlet weak var photoButton2: UIButton!
     @IBOutlet weak var photoButton3: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var imagePicked: UIImageView!
     
@@ -36,6 +38,7 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
     var inputDate: Date? = nil
     var datePicker: UIDatePicker? = nil
     let dateFormatter = DateFormatter()
+    let location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -47,34 +50,98 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         
+        self.initMapViewDelegate()
         self.initLocationDelegate()
     }
     
-    func initLocationDelegate() {
-        // Ask for Authorisation from the User.
-        self.locationManager.requestAlwaysAuthorization()
+    func initMapViewDelegate() {
+        self.mapView.delegate = self
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(mapTap(gestureReconizer:)))
+        gestureRecognizer.delegate = self
+        mapView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    func mapTap(gestureReconizer: UILongPressGestureRecognizer) {
+        print("Map tap!")
+        let location = gestureReconizer.location(in: mapView)
+        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+        self.pinCoordinate(coordinate: coordinate, animated: true)
+    }
+    
+    func pinCoordinate(coordinate: CLLocationCoordinate2D, animated: Bool = false) {
+        // Prevent automatic location lookup if in progress
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.stopUpdatingLocation()
+        }
         
+        // Add annotation:
+        var annotation = MKPointAnnotation()
+        if (mapView.annotations.count > 0) {
+            annotation = mapView.annotations[0] as! MKPointAnnotation
+        }
+        annotation.coordinate = coordinate
+        mapView.addAnnotation(annotation)
+        
+        var span = mapView.region.span
+        if (span.latitudeDelta > 0.075) {
+            span = MKCoordinateSpanMake(0.075, 0.075)
+        }
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        mapView.setRegion(region, animated: animated)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            //return nil so map view draws "blue dot" for standard user location
+            return nil
+        }
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.animatesDrop = true
+            pinView!.pinTintColor = .orange
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    func initLocationDelegate() {
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
         }
     }
     
+    // Location was successfully retrieved
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let span = MKCoordinateSpanMake(0.075, 0.075)
         let region = MKCoordinateRegion(center: manager.location!.coordinate, span: span)
-        mapView.setRegion(region, animated: true)
+        mapView.setRegion(region, animated: false)
         
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        let myAnnotation = MKPointAnnotation()
+        myAnnotation.coordinate = locValue
+        mapView.addAnnotation(myAnnotation)
+
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Did location updates is called but failed getting location \(error)")
     }
     
     func dismissKeyboard() {
-        print("Someone tapped")
         view.endEditing(true)
         if let datePicker = self.datePicker {
             datePicker.removeFromSuperview()
@@ -200,12 +267,22 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
             catchObject?.localCatchId = shared.nextLocalCatchId
             shared.nextLocalCatchId += 1
             createNew = true
+            
+            // Find current position
+            if CLLocationManager.locationServicesEnabled() {
+                locationManager.requestLocation() // Will call didUpdateLocation once
+                // For repeated requests, use .startUpdatingLocation()
+            }
         }
         
         if let actualCatch = catchObject {
             if (self.allowOverwrite) {
                 fillInCatch(catchObject: actualCatch)
                 self.allowOverwrite = false
+            }
+            
+            if let location = actualCatch.location {
+                self.pinCoordinate(coordinate: location, animated: false)
             }
         }
     }
@@ -231,12 +308,14 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         self.weightField.text = catchObject.weight > 1.0 ? "\(catchObject.weight)" : ""
         self.lengthField.text = catchObject.length > 1.0 ? "\(catchObject.length)" : ""
         self.girthField.text = catchObject.girth > 1.0 ? "\(catchObject.girth)" : ""
-        self.locationField.text = catchObject.location
+        self.placeField.text = catchObject.place
         self.baitField.text = catchObject.bait
     }
     
     func updatePhotoButtons() {
         if let catchObject = self.catchObject {
+            self.imageView.image = catchObject.getImage(index: 0)
+            
             if (catchObject.imageLinks.count == 0) {
                 self.photoButton2.isHidden = true
                 self.photoButton3.isHidden = true
@@ -255,10 +334,17 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
                 if (catchObject.imageLinks.count <= index) {
                     print("Should reset to default")
                     let defaultImage = UIImage(named: "Photo-add")
+                    button.backgroundColor = UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 0.9)
                     button.setBackgroundImage(defaultImage, for: .normal)
+                    button.layer.cornerRadius = button.frame.size.width / 2;
+                    button.layer.borderColor = UIColor.white.cgColor
+                    button.layer.borderWidth = 1
+                    button.clipsToBounds = true;
                 } else {
                     button.setBackgroundImage(catchObject.getThumbnailImage(index: index), for: .normal)
                     button.layer.cornerRadius = button.frame.size.width / 2;
+                    button.layer.borderColor = UIColor.white.cgColor
+                    button.layer.borderWidth = 1
                     button.clipsToBounds = true;
                 }
                 index += 1
@@ -306,9 +392,14 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
             }
         }
         
-        var location = ""
-        if let inputLocation = locationField.text {
-            location = inputLocation
+        var location: CLLocationCoordinate2D? = nil
+        if (mapView.annotations.count > 0) {
+            location = mapView.annotations[0].coordinate
+        }
+        
+        var place = ""
+        if let inputPlace = placeField.text {
+            place = inputPlace
         }
         
         var bait = ""
@@ -339,6 +430,7 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
             currentCatch.length = length
             currentCatch.girth = girth
             currentCatch.location = location
+            currentCatch.place = place
             currentCatch.bait = bait
             
             if (createNew) {
@@ -415,6 +507,16 @@ class EditCatchViewController: UIViewController, UIImagePickerControllerDelegate
         if let catchObject = self.catchObject {
             catchObject.addImage(image: image)
             self.updatePhotoButtons()
+        }
+
+        // Retrieve location from image
+        if picker.sourceType == UIImagePickerControllerSourceType.photoLibrary {
+            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+            if let asset = PHAsset.fetchAssets(withALAssetURLs: [imageURL as URL], options: nil).firstObject {
+                if let location = asset.location {
+                    self.mapView.setCenter(location.coordinate, animated: false)
+                }
+            }
         }
         
         self.dismiss(animated: true, completion: nil);
