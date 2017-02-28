@@ -75,6 +75,17 @@ class SpeciesViewController: SlideViewController {
                 }
             }
         }
+        if (segue.identifier == "ShowCatch") {
+            print("Just having a look at the catch")
+            if let catchCell = sender as? CatchCell {
+                if let target = segue.destination as? ShowCatchViewController {
+                    if let catchObject = catchCell.catchObject {
+                        print("Showing '\(catchObject.speciesName)' \(catchObject.id)/\(catchObject.localCatchId)")
+                        target.catchObject = catchObject
+                    }
+                }
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView,

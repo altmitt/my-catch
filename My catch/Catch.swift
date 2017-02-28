@@ -113,7 +113,7 @@ class Catch {
             if let imageFileUrl = imageLink.local {
                 if let imageData: NSData = NSData(contentsOf: imageFileUrl) {
                     if let image = UIImage(data: imageData as Data) {
-                        print("Found image (through data) of size \(image.size.width)x\(image.size.height)")
+                        //print("Found image (through data) of size \(image.size.width)x\(image.size.height)")
                         return image
                     }
                 }
@@ -133,7 +133,7 @@ class Catch {
             if let imageFileUrl = imageLink.localThumbnail {
                 if let imageData: NSData = NSData(contentsOf: imageFileUrl) {
                     if let image = UIImage(data: imageData as Data) {
-                        print("Found image (through data) of size \(image.size.width)x\(image.size.height)")
+                        //print("Found thumbnail (through data) of size \(image.size.width)x\(image.size.height)")
                         return image
                     }
                 }
@@ -141,5 +141,12 @@ class Catch {
             }
         }
         return nil
+    }
+    
+    func getScore() -> Int {
+        if let species = species {
+            return species.getScore(weight: weight, countryCode: country)
+        }
+        return 0
     }
 }

@@ -70,6 +70,16 @@ class SpeciesMnUser {
         return nil
     }
     
+    func getScore() -> Int {
+        var maxScore = 0
+        for catchObject in self.catches {
+            if (catchObject.getScore() > maxScore) {
+                maxScore = catchObject.getScore()
+            }
+        }
+        return maxScore
+    }
+    
     func getThumbnailImage() -> UIImage? {
         for catchObject in self.catches {
             if let imageObject = catchObject.getThumbnailImage(index: 0) {

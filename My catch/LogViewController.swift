@@ -22,6 +22,17 @@ class LogViewController: SlideViewController {
                 }
             }
         }
+        if (segue.identifier == "ShowCatch") {
+            print("Just going to show the catch")
+            if let catchCell = sender as? CatchCell {
+                if let target = segue.destination as? ShowCatchViewController {
+                    if let catchObject = catchCell.catchObject {
+                        print("Showing '\(catchObject.speciesName)' \(catchObject.id)/\(catchObject.localCatchId)")
+                        target.catchObject = catchObject
+                    }
+                }
+            }
+        }
     }
     
 }

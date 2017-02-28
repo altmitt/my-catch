@@ -28,6 +28,7 @@
 		3189DC341E3C91CD00CA6F34 /* RequestCache.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3189DC331E3C91CD00CA6F34 /* RequestCache.plist */; };
 		3189DC361E3F280E00CA6F34 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC351E3F280E00CA6F34 /* Session.swift */; };
 		3189DC381E3F2CB300CA6F34 /* SpeciesMnUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */; };
+		31DB2D7B1E648CE20001C1F3 /* ShowCatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DB2D7A1E648CE20001C1F3 /* ShowCatchViewController.swift */; };
 		31DBCA6C1E4A46220094AAF9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		3189DC331E3C91CD00CA6F34 /* RequestCache.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RequestCache.plist; sourceTree = "<group>"; };
 		3189DC351E3F280E00CA6F34 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeciesMnUser.swift; sourceTree = "<group>"; };
+		31DB2D7A1E648CE20001C1F3 /* ShowCatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowCatchViewController.swift; sourceTree = "<group>"; };
 		31DBCA6B1E4A46220094AAF9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		318672111E657235002FD477 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3189DC351E3F280E00CA6F34 /* Session.swift */,
+				3189DC281E34E5E000CA6F34 /* Catch.swift */,
+				3189DC2F1E3C8BD200CA6F34 /* Species.swift */,
+				3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		318672121E657242002FD477 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				318672131E657296002FD477 /* Cells */,
+				3189DC221E3373FB00CA6F34 /* SlideViewController.swift */,
+				3189DC1A1E3370E100CA6F34 /* LogViewController.swift */,
+				314513A81E44C5E900DCD3C7 /* SpeciesListViewController.swift */,
+				3189DC1C1E3370FC00CA6F34 /* SpeciesViewController.swift */,
+				3189DC2A1E35631900CA6F34 /* EditCatchViewController.swift */,
+				31DB2D7A1E648CE20001C1F3 /* ShowCatchViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		318672131E657296002FD477 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				3189DC241E34E10800CA6F34 /* AddCatchCell.swift */,
+				3189DC261E34E27500CA6F34 /* CatchCell.swift */,
+				314513AA1E44CD7500DCD3C7 /* HeaderCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		3189DBF81E335D7F00CA6F34 = {
 			isa = PBXGroup;
 			children = (
@@ -92,26 +129,16 @@
 		3189DC031E335D7F00CA6F34 /* My catch */ = {
 			isa = PBXGroup;
 			children = (
+				318672121E657242002FD477 /* Controllers */,
+				318672111E657235002FD477 /* Model */,
 				3189DC041E335D7F00CA6F34 /* AppDelegate.swift */,
 				3189DC161E33706300CA6F34 /* RootViewController.swift */,
+				3189DC1E1E33722B00CA6F34 /* ModelController.swift */,
 				3189DC081E335D7F00CA6F34 /* Main.storyboard */,
 				3189DC0B1E335D7F00CA6F34 /* Assets.xcassets */,
 				3189DC0D1E335D7F00CA6F34 /* LaunchScreen.storyboard */,
 				3189DC101E335D7F00CA6F34 /* Info.plist */,
-				3189DC1E1E33722B00CA6F34 /* ModelController.swift */,
-				3189DC241E34E10800CA6F34 /* AddCatchCell.swift */,
-				3189DC261E34E27500CA6F34 /* CatchCell.swift */,
-				314513AA1E44CD7500DCD3C7 /* HeaderCell.swift */,
-				3189DC2A1E35631900CA6F34 /* EditCatchViewController.swift */,
 				3189DC331E3C91CD00CA6F34 /* RequestCache.plist */,
-				3189DC351E3F280E00CA6F34 /* Session.swift */,
-				3189DC281E34E5E000CA6F34 /* Catch.swift */,
-				3189DC2F1E3C8BD200CA6F34 /* Species.swift */,
-				3189DC371E3F2CB300CA6F34 /* SpeciesMnUser.swift */,
-				3189DC221E3373FB00CA6F34 /* SlideViewController.swift */,
-				3189DC1A1E3370E100CA6F34 /* LogViewController.swift */,
-				314513A81E44C5E900DCD3C7 /* SpeciesListViewController.swift */,
-				3189DC1C1E3370FC00CA6F34 /* SpeciesViewController.swift */,
 			);
 			path = "My catch";
 			sourceTree = "<group>";
@@ -216,6 +243,7 @@
 				3189DC381E3F2CB300CA6F34 /* SpeciesMnUser.swift in Sources */,
 				3189DC271E34E27500CA6F34 /* CatchCell.swift in Sources */,
 				3189DC251E34E10800CA6F34 /* AddCatchCell.swift in Sources */,
+				31DB2D7B1E648CE20001C1F3 /* ShowCatchViewController.swift in Sources */,
 				3189DC361E3F280E00CA6F34 /* Session.swift in Sources */,
 				3189DC301E3C8BD200CA6F34 /* Species.swift in Sources */,
 				3189DC2B1E35631900CA6F34 /* EditCatchViewController.swift in Sources */,
@@ -340,7 +368,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Victoria";
 				DEVELOPMENT_TEAM = 3Z5PAAXD3Q;
 				INFOPLIST_FILE = "My catch/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -355,7 +382,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Victoria";
 				DEVELOPMENT_TEAM = 3Z5PAAXD3Q;
 				INFOPLIST_FILE = "My catch/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

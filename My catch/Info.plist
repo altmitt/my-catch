@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) lets you add photos of your catch from your library.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) lets you use the camera to take a photo of your catch.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -30,8 +20,18 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) lets you use the camera to take a photo of your catch.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used by $(PRODUCT_NAME) to set the location of your catch.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) lets you add photos of your catch from your library.</string>
 	<key>UILaunchStoryboardName</key>
-	<string>Main</string>
+	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

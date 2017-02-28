@@ -27,14 +27,23 @@ class CatchCell: UICollectionViewCell {
         self.catchObject = catchObject
         
         self.catchImage.image = catchObject.getThumbnailImage(index: 0)
+        if (self.catchImage.image == nil) {
+            self.catchImage.image = #imageLiteral(resourceName: "blue-gradient")
+        }
         self.catchImage.layer.cornerRadius = self.catchImage.frame.size.width / 2;
         self.catchImage.clipsToBounds = true;
 
         // Quantity
         if (catchObject.quantity > 1) {
             self.middleLabel.text = "\(catchObject.quantity)"
+            self.trophyImageTeam.image = nil
+            self.trophyImageSpecies.image = nil
+            self.trophyImageUser.image = nil
         } else {
             self.middleLabel.text = ""
+            self.trophyImageTeam.image = getTrophyImageTeam()
+            self.trophyImageSpecies.image = getTrophyImageSpecies(score: catchObject.getScore())
+            self.trophyImageUser.image = getTrophyImageUser()
         }
         
         // Weight
@@ -71,6 +80,10 @@ class CatchCell: UICollectionViewCell {
         self.catchImage.layer.cornerRadius = self.catchImage.frame.size.width / 2;
         self.catchImage.clipsToBounds = true;
         
+        self.trophyImageTeam.image = nil
+        self.trophyImageSpecies.image = getTrophyImageSpecies(score: speciesMnUserObject.getScore())
+        self.trophyImageUser.image = nil
+        
         self.middleLabel.text = "\(speciesMnUserObject.quantity)"
         self.topLabel.text = ""
         self.bottomLabel.text = "\(speciesMnUserObject.name)"
@@ -83,6 +96,27 @@ class CatchCell: UICollectionViewCell {
             self.middleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 12.0)
             self.bottomLabel.font = UIFont(name: "HelveticaNeue", size: 8.0)
         }
+    }
+    
+    func getTrophyImageSpecies(score: Int) -> UIImage? {
+        if (score >= 100) {
+            return #imageLiteral(resourceName: "Stars3")
+        }
+        if (score >= 75) {
+            return #imageLiteral(resourceName: "Stars2")
+        }
+        if (score >= 50) {
+            return #imageLiteral(resourceName: "Stars1")
+        }
+        return nil
+    }
+    
+    func getTrophyImageTeam() -> UIImage? {
+        return nil
+    }
+    
+    func getTrophyImageUser() -> UIImage? {
+        return nil
     }
 
 }
